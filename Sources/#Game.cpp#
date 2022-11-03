@@ -1,0 +1,112 @@
+#include "../Headers/Game.h"
+
+using namespace std;
+
+Game::Game(): nbPlayers(0),nbBots(4), nbShips(5){
+	shipNames = new string[nbShips];
+	shipNames[0]="porte_avion";
+	shipNames[1]="croiseur";
+	shipNames[2]="contre-torpilleur";
+	shipNames[3]="sous-marin";
+	shipNames[4]="torpilleur";
+
+	players = new Player*[nbPlayers + nbBots];
+	players[0] = new Player("THIBAUT SNCF", 10, 10, shipNames, nbShips, false);
+	players[1] = new Player("ROMAIN PANNE DE REVEIL", 10, 10, shipNames, nbShips, false);
+	players[2] = new Player("GAEL AU TEL", 10, 10, shipNames, nbShips, false);
+	players[3] = new Player("ARTHUR FAIT CACA", 10, 10, shipNames, nbShips, false);
+}
+Game::Game(string cfg){
+	if(!readConfig(cfg)){
+		//Si lecture du fichier config ne fonctionne pas on lance le constructeur par défaut
+		Game();
+	}
+}
+Game::~Game(){
+	
+}
+void Game::start(){
+
+	/* PREMIERE PARTIE ~ MISE EN PLACE DU JEU*/
+
+		//	Charger la config passé dans le string "configLink"
+		// 	Créer les différents joueurs robots et réels
+		//		-> Définir la taille de son territory
+		//		-> Son pseudo si c'est un robot
+		//		-> Les différents Ships
+
+		//	Maintenant un joueur a :
+		//		-> un territory de taille différente
+		//		-> des Ships differents
+		//		-> un pseudo si c'est un robot
+
+		//	Il faut donc placer les différents Ships sur le territory des players
+		//	Et donner un pseudo pour les joueurs non robot
+		//		-> pour ça on a une classe qui s'appelle PREPATIONPLAYER
+		//			(Se renseigner auprès de Arthur et Gaël)
+
+		//	Toutes les variables sont à leurs places le jeu peut commencer
+
+	/* DEUXIEME PARTIE ~ DEBUT DE LA PARTIE */
+
+		//	Choix aléatoire de l'ordre des joueurs
+
+		//	Quand c'est au tour d'un joueur celui ci doit :
+		//		-> Choisir le joueur à attaquer
+		//		-> Choisir quelle case attaquer de son adversaire visé
+		//		-> Vérifier si la case choisie est déjà prise 'l'éviter'
+		//		-> Quand le joueur a choisi la case à attaquer, attaquer le joueur en question
+		//
+		//		-> à tout moment il est possible de revenir en arrière dans le Choix
+		//		-> Un joueur peut attaquer ou être attaquer, seulement si il est en vie
+
+		//	Tant qu'il y a plus de deux joueurs en vie la partie continue
+		//	Si un joueur touche un adversaire il peut rejouer
+		//	Chaques actions doit être enregistré dans un fichier log
+		//	Il est possible à n'importe quel moment d'enregistrer la partie en question
+
+	/* TROISIEME PARTIE ~ FIN DE LA PARTIE */
+
+		//	Quand la partie est finie il faut checker si il y a eu un nouveau meilleur Score
+		//	Si oui affichers les nouveaux meilleurs scores
+		//	Possibilité de pouvoir enregistrer sa partie
+
+
+}
+
+bool Game::readConfig(string cfg)
+{
+	string filename = cfg + ".ship";
+	ifstream file(filename.c_str(), ios::in);
+	if(file)
+	{
+		string cvar;//variable de la config lue
+		string line;//ligne lue
+		int lCount=0;//compteur de lignes (et donc de joueurs)
+		int cvarCount=0;//compteur de variables (et donc indirectement de bateaux)
+		while(getline(file, line))//tant qu'on peut lire des lignes de fichier, en les mettant dans line
+		{
+			lCount++;//on augmente le nombre de lignes (=joueurs)
+			istringstream iss(line);//on crée un stream pour lire mot par mot
+			while(iss >> cvar)//tant qu'on peut lire des mots dans la ligne, en les mettant dans cvar
+			{
+				cvarCount++;//on augmente le compteur de cvar de la ligne, pour savoir quelle variable on lit
+				switch(cvarCount){ //cas par cas
+					case 1:
+						if(cvar == "bot"){
+							//DO
+						}else if(cvar == "hum"){
+							//DO
+						}else
+							return false;
+							break;
+	
+				}
+			}
+			cvarCount=0;//on réinitialise le nombre de variables lues, pour passer au prochain joueur
+		}
+		file.close();
+		if(lCount<2) return false;
+	}
+	else return false;
+}

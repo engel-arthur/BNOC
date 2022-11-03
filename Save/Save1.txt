@@ -1,0 +1,4 @@
+hum;Joueur 1;10;10;porte_avion;0;0;0;croiseur;4;0;0;contre-torpilleur;1;0;0;sous-marin;2;0;0;torpilleur;3;0;0;
+bot;Joueur 2;10;10;porte_avion;4;5;1;croiseur;4;6;0;contre-torpilleur;9;7;2;sous-marin;1;1;1;torpilleur;6;6;0;
+
+1 0 9 5
